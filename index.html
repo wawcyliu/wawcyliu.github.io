@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>刘氏族谱信息收集</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -1038,6 +1040,8 @@
     </div>
 
     <script>
+        emailjs.init({ publicKey: "uFrXoOqrGzpBlVhph" });
+
         const generations = ['文', '天', '廷', '仕', '仲', '元', '朝', '应', '荣', '兴', '泮', '宫', '联', '甲', '弟', '云', '路', '佑', '先', '登', '宗', '功', '祖', '德', '远', '诗', '书', '启', '后', '生', '事', '业', '光', '前', '烈', '玉', '叶', '永', '乾', '坤'];
         
         let siblingCount = 1;
@@ -1103,144 +1107,16 @@
             const currentUrl = window.location.href;
             
             urlDisplay.textContent = currentUrl;
-            
             qrCodeDiv.innerHTML = '';
             
-            const canvas = document.createElement('canvas');
-            canvas.width = 160;
-            canvas.height = 160;
-            const ctx = canvas.getContext('2d');
-            
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, 160, 160);
-            
-            const qrData = generateQRData(currentUrl);
-            drawQRCode(ctx, qrData, 160);
-            
-            const img = document.createElement('img');
-            img.src = canvas.toDataURL('image/png');
-            qrCodeDiv.appendChild(img);
-        }
-
-        function generateQRData(text) {
-            const QR8bitByte = 4;
-            const blocks = [];
-            
-            const data = text.split('').map(char => char.charCodeAt(0));
-            const dataLength = data.length;
-            
-            const header = [(dataLength >> 8) & 0xFF, dataLength & 0xFF];
-            const segment = [QR8bitByte, ...header, ...data];
-            
-            blocks.push(segment);
-            
-            const version = getQRVersion(dataLength);
-            const errorLevel = 'L';
-            
-            return { blocks, version, errorLevel };
-        }
-
-        function getQRVersion(length) {
-            if (length <= 17) return 1;
-            if (length <= 32) return 2;
-            if (length <= 53) return 3;
-            if (length <= 78) return 4;
-            return 4;
-        }
-
-        function drawQRCode(ctx, qrData, size) {
-            const version = qrData.version;
-            const moduleCount = version * 4 + 17;
-            const moduleSize = size / moduleCount;
-            
-            const maskPattern = 0;
-            const modules = getQRModules(qrData, maskPattern);
-            
-            for (let row = 0; row < moduleCount; row++) {
-                for (let col = 0; col < moduleCount; col++) {
-                    const isDark = modules[row][col];
-                    if (isDark) {
-                        ctx.fillStyle = '#000000';
-                        ctx.fillRect(col * moduleSize, row * moduleSize, moduleSize, moduleSize);
-                    }
-                }
-            }
-        }
-
-        function getQRModules(qrData, maskPattern) {
-            const version = qrData.version;
-            const moduleCount = version * 4 + 17;
-            const modules = Array(moduleCount).fill(null).map(() => Array(moduleCount).fill(false));
-            
-            drawPositionProbePattern(modules, 0, 0);
-            drawPositionProbePattern(modules, moduleCount - 7, 0);
-            drawPositionProbePattern(modules, 0, moduleCount - 7);
-            
-            for (let i = 0; i < moduleCount; i++) {
-                if (i < 9 || i > moduleCount - 9) continue;
-                modules[6][i] = true;
-                modules[i][6] = true;
-            }
-            
-            const data = encodeQRData(qrData);
-            let bitIndex = 0;
-            
-            for (let row = moduleCount - 1; row >= 0; row -= 2) {
-                for (let col = moduleCount - 1; col >= 0; col--) {
-                    if (modules[row][col] || modules[row - 1][col]) continue;
-                    
-                    const bit = (data[Math.floor(bitIndex / 8)] >> (7 - (bitIndex % 8))) & 1;
-                    modules[row][col] = bit;
-                    bitIndex++;
-                    
-                    if (row - 1 >= 0 && !modules[row - 1][col]) {
-                        const bit2 = (data[Math.floor(bitIndex / 8)] >> (7 - (bitIndex % 8))) & 1;
-                        modules[row - 1][col] = bit2;
-                        bitIndex++;
-                    }
-                }
-            }
-            
-            return modules;
-        }
-
-        function drawPositionProbePattern(modules, row, col) {
-            for (let r = -1; r <= 7; r++) {
-                for (let c = -1; c <= 7; c++) {
-                    const dr = row + r;
-                    const dc = col + c;
-                    if (dr < 0 || dr >= modules.length || dc < 0 || dc >= modules[0].length) continue;
-                    
-                    if ((r >= 0 && r <= 6 && c >= 0 && c <= 6) && !(r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
-                        modules[dr][dc] = true;
-                    } else if (r >= 2 && r <= 4 && c >= 2 && c <= 4) {
-                        modules[dr][dc] = true;
-                    }
-                }
-            }
-            for (let r = 2; r <= 4; r++) {
-                for (let c = 2; c <= 4; c++) {
-                    modules[row + r][col + c] = false;
-                }
-            }
-        }
-
-        function encodeQRData(qrData) {
-            let data = [];
-            
-            qrData.blocks.forEach(block => {
-                data = data.concat(block);
+            new QRCode(qrCodeDiv, {
+                text: currentUrl,
+                width: 180,
+                height: 180,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
             });
-            
-            const version = qrData.version;
-            const totalBits = version * version * 4 + version * 44;
-            const totalBytes = Math.ceil(totalBits / 8);
-            
-            while (data.length < totalBytes) {
-                data.push(0xEC);
-            }
-            
-            return data.slice(0, totalBytes);
         }
 
         window.addEventListener('load', function() {
@@ -1669,14 +1545,40 @@
             console.log('提交数据:', JSON.stringify(formData, null, 2));
 
             const emailBody = formatEmail(formData);
-            const mailtoUrl = `mailto:89658220@qq.com?subject=${encodeURIComponent('刘氏族谱信息收集 - ' + name)}&body=${encodeURIComponent(emailBody)}`;
             
-            const confirmSend = confirm('信息已收集完成！\n\n是否发送邮件到89658220@qq.com？');
-            if (confirmSend) {
-                window.location.href = mailtoUrl;
-            }
-            
-            document.getElementById('success-modal').classList.add('show');
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span>发送中...</span>';
+            submitBtn.disabled = true;
+
+            const templateParams = {
+                name: formData.填写人信息.姓名,
+                rank: formData.填写人信息.排行 + (formData.填写人信息.排行其他 ? '(' + formData.填写人信息.排行其他 + ')' : ''),
+                birthYear: formData.填写人信息.出生年月.年,
+                birthMonth: formData.填写人信息.出生年月.月,
+                birthDay: formData.填写人信息.出生年月.日,
+                phone: formData.填写人信息.联系电话,
+                generation: document.getElementById('generation-select')?.value || '',
+                siblings: formData.兄弟姐妹.map((s, i) => `${i + 1}. 姓名：${s.姓名}，排行：${s.排行}，血缘：${s.血缘}`).join('\n') || '无',
+                ancestors: emailBody.match(/三、上溯九代先祖\n([\s\S]*?)\n\n/)?.[1] || '无',
+                descendants: emailBody.match(/四、下延子孙\n([\s\S]*?)\n\n/)?.[1] || '无',
+                oldRecords: formData.补充备注.老谱古碑 || '无',
+                familyStory: formData.补充备注.家族往事 || '无',
+                message: emailBody
+            };
+
+            emailjs.send('service_n9dllbf', 'template_b8smdtk', templateParams)
+                .then(function(response) {
+                    console.log('邮件发送成功:', response);
+                    document.getElementById('success-modal').classList.add('show');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, function(error) {
+                    console.log('邮件发送失败:', error);
+                    alert('提交失败，可截图保存信息。\n错误：' + (error.text || error.message || '未知错误'));
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
         }
 
         function formatEmail(data) {
