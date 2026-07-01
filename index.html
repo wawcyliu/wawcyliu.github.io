@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>刘氏族谱信息收集</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .header {
+            background: linear-gradient(180deg, rgba(44,62,80,0.9) 0%, rgba(26,26,46,0.95) 100%);
+            padding: 40px 20px 30px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            color: #f5c419;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        .form-container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .section-title {
+            background: linear-gradient(90deg, #1a5f7a 0%, #2d3436 100%);
+            color: #fff;
+            padding: 14px 18px;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 1px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: #f5c419;
+            border-radius: 2px;
+        }
+
+        .form-content {
+            padding: 16px 18px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .label span {
+            color: #e74c3c;
+            margin-left: 2px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #333;
+            background: #fafafa;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input:focus {
+            border-color: #1a5f7a;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(26,95,122,0.1);
+        }
+
+        .input::placeholder {
+            color: #999;
+        }
+
+        .select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #333;
+            background: #fafafa;
+            transition: all 0.3s;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+
+        .select:focus {
+            border-color: #1a5f7a;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(26,95,122,0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .radio-label:hover {
+            background: #e8f4f8;
+            border-color: #1a5f7a;
+        }
+
+        .radio-label.selected {
+            background: #1a5f7a;
+            border-color: #1a5f7a;
+            color: #fff;
+        }
+
+        .radio-label input[type="radio"] {
+            display: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .checkbox-label:hover {
+            background: #e8f4f8;
+            border-color: #1a5f7a;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #1a5f7a;
+        }
+
+        .grid-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .grid-row-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .ancestor-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .ancestor-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .grid-row-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .small-input {
+            padding: 10px 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #333;
+            background: #fafafa;
+            transition: all 0.3s;
+            outline: none;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        .textarea:focus {
+            border-color: #1a5f7a;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(26,95,122,0.1);
+        }
+
+        .member-item {
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-left: 4px solid #1a5f7a;
+        }
+
+        .member-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .member-item-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .member-item-remove {
+            color: #999;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 8px;
+            background: #eee;
+            border-radius: 4px;
+        }
+
+        .member-item-remove:hover {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .add-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #1a5f7a 0%, #27ae60 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 12px;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26,95,122,0.4);
+        }
+
+        .add-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, #f5c419 0%, #e67e22 100%);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 25px rgba(245,196,25,0.4);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245,196,25,0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-modal.show {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .success-content {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 360px;
+            width: 100%;
+            animation: scaleIn 0.3s;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: #fff;
+            font-size: 40px;
+        }
+
+        .success-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .success-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .success-btn {
+            padding: 12px 40px;
+            background: #1a5f7a;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .success-btn:hover {
+            background: #154f66;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .required-hint {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .required-hint.show {
+            display: block;
+        }
+
+        .qrcode-section {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .qrcode-header h3 {
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .qrcode-header p {
+            color: #888;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .qrcode-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #qrcode {
+            width: 180px;
+            height: 180px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        #qrcode img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .qrcode-url {
+            color: #aaa;
+            font-size: 11px;
+            text-align: center;
+            word-break: break-all;
+            max-width: 200px;
+            margin: 0;
+        }
+
+        .refresh-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255,215,0,0.2);
+        }
+
+        .collapse-btn {
+            float: right;
+            font-size: 20px;
+            line-height: 1;
+            transition: transform 0.3s;
+        }
+
+        .collapse-btn.rotated {
+            transform: rotate(180deg);
+        }
+
+        .section-content.collapsed {
+            display: none;
+        }
+
+        .generation-label {
+            background: #1a5f7a;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .relation-select {
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>彭城郡俊孝堂</h1>
+        <p>刘氏族谱信息收集</p>
+    </div>
+
+    <div class="form-container">
+        <div class="section">
+            <div class="section-title">
+                一、填写人基础信息
+            </div>
+            <div class="form-content">
+                <div class="form-group">
+                    <label class="label">填写人姓名 <span>*</span></label>
+                    <input type="text" class="input" id="name" placeholder="请输入填写人姓名" oninput="updateAddChildBtn()">
+                    <div class="required-hint" id="hint-name">请填写户主姓名</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">排行</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="rank" value="老大">
+                            <span>老大</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="rank" value="老二">
+                            <span>老二</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="rank" value="老三">
+                            <span>老三</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="rank" value="其他">
+                            <span>其他</span>
+                        </label>
+                    </div>
+                    <input type="text" class="input" id="rank-other" placeholder="其他排行" style="margin-top: 10px; display: none;">
+                </div>
+
+                <div class="form-group">
+                    <label class="label">出生年月（农历）</label>
+                    <div class="grid-row">
+                        <input type="text" class="input small-input" id="birth-year" placeholder="年份">
+                        <input type="text" class="input small-input" id="birth-month" placeholder="月份">
+                        <input type="text" class="input small-input" id="birth-day" placeholder="日期">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">联系电话</label>
+                    <input type="tel" class="input" id="phone" placeholder="请输入联系电话">
+                </div>
+
+                <div class="form-group">
+                    <label class="label">填写人字辈 <span>*</span></label>
+                    <select class="select" id="generation-select" onchange="updateGenerations()">
+                        <option value="">请选择户主字辈</option>
+                        <option value="文">文字辈（第1代）</option>
+                        <option value="天">天字辈（第2代）</option>
+                        <option value="廷">廷字辈（第3代）</option>
+                        <option value="仕">仕字辈（第4代）</option>
+                        <option value="仲">仲字辈（第5代）</option>
+                        <option value="元">元字辈（第6代）</option>
+                        <option value="朝">朝字辈（第7代）</option>
+                        <option value="应">应字辈（第8代）</option>
+                        <option value="荣">荣字辈（第9代）</option>
+                        <option value="兴">兴字辈（第10代）</option>
+                        <option value="泮">泮字辈（第11代）</option>
+                        <option value="宫">宫字辈（第12代）</option>
+                        <option value="联">联字辈（第13代）</option>
+                        <option value="甲">甲字辈（第14代）</option>
+                        <option value="弟">弟字辈（第15代）</option>
+                        <option value="云" selected>云字辈（第16代）</option>
+                        <option value="路">路字辈（第17代）</option>
+                        <option value="佑">佑字辈（第18代）</option>
+                        <option value="先">先字辈（第19代）</option>
+                        <option value="登">登字辈（第20代）</option>
+                        <option value="宗">宗字辈（第21代）</option>
+                        <option value="功">功字辈（第22代）</option>
+                        <option value="祖">祖字辈（第23代）</option>
+                        <option value="德">德字辈（第24代）</option>
+                        <option value="远">远字辈（第25代）</option>
+                        <option value="诗">诗字辈（第26代）</option>
+                        <option value="书">书字辈（第27代）</option>
+                        <option value="启">启字辈（第28代）</option>
+                        <option value="后">后字辈（第29代）</option>
+                        <option value="生">生字辈（第30代）</option>
+                        <option value="事">事字辈（第31代）</option>
+                        <option value="业">业字辈（第32代）</option>
+                        <option value="光">光字辈（第33代）</option>
+                        <option value="前">前字辈（第34代）</option>
+                        <option value="烈">烈字辈（第35代）</option>
+                        <option value="玉">玉字辈（第36代）</option>
+                        <option value="叶">叶字辈（第37代）</option>
+                        <option value="永">永字辈（第38代）</option>
+                        <option value="乾">乾字辈（第39代）</option>
+                        <option value="坤">坤字辈（第40代）</option>
+                    </select>
+                </div>
+
+                <div style="border-top: 1px dashed #ddd; padding-top: 16px; margin-top: 8px;">
+                    <div class="section-title" style="background: none; color: #333; padding: 0; margin-bottom: 12px;">
+                        <span style="width: 4px; height: 16px; background: #1a5f7a; border-radius: 2px; display: inline-block; margin-right: 8px;"></span>
+                        填写人兄弟姐妹（与填写人同字辈）
+                    </div>
+                    <div id="siblings-list"></div>
+                    <button class="add-btn" onclick="addSibling()">
+                        <span>+</span> 添加兄弟姐妹
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                二、上溯九代先祖
+                <span class="collapse-btn" onclick="toggleSection('ancestors')">▼</span>
+            </div>
+            <div class="form-content section-content" id="ancestors">
+                <div class="generation-label" id="ancestor-label-1">父亲（第一代 · 请先选择户主字辈）</div>
+                <div class="ancestor-row">
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">父亲姓名</label>
+                            <input type="text" class="input" id="father-name" placeholder="父亲姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">父亲诞辰</label>
+                            <input type="text" class="input" id="father-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">父亲忌日</label>
+                            <input type="text" class="input" id="father-death" placeholder="待考（在世不填）">
+                        </div>
+                    </div>
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">母亲姓名（仅知姓氏可写×氏）</label>
+                            <input type="text" class="input" id="mother-name" placeholder="母亲姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">母亲诞辰</label>
+                            <input type="text" class="input" id="mother-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">母亲忌日</label>
+                            <input type="text" class="input" id="mother-death" placeholder="待考（在世不填）">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="generation-label" id="ancestor-label-2">祖父（第二代 · 请先选择户主字辈）</div>
+                <div class="ancestor-row">
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">祖父姓名</label>
+                            <input type="text" class="input" id="grandfather-name" placeholder="祖父姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">祖父诞辰</label>
+                            <input type="text" class="input" id="grandfather-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">祖父忌日</label>
+                            <input type="text" class="input" id="grandfather-death" placeholder="待考">
+                        </div>
+                    </div>
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">祖母姓名</label>
+                            <input type="text" class="input" id="grandmother-name" placeholder="祖母姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">祖母诞辰</label>
+                            <input type="text" class="input" id="grandmother-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">祖母忌日</label>
+                            <input type="text" class="input" id="grandmother-death" placeholder="待考">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="generation-label" id="ancestor-label-3">曾祖（第三代 · 请先选择户主字辈）</div>
+                <div class="ancestor-row">
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">曾祖姓名</label>
+                            <input type="text" class="input" id="great-grandfather-name" placeholder="曾祖姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">曾祖诞辰</label>
+                            <input type="text" class="input" id="great-grandfather-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">曾祖忌日</label>
+                            <input type="text" class="input" id="great-grandfather-death" placeholder="待考">
+                        </div>
+                    </div>
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">曾祖母姓名</label>
+                            <input type="text" class="input" id="great-grandmother-name" placeholder="曾祖母姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">曾祖母诞辰</label>
+                            <input type="text" class="input" id="great-grandmother-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">曾祖母忌日</label>
+                            <input type="text" class="input" id="great-grandmother-death" placeholder="待考">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="generation-label" id="ancestor-label-4">高祖（第四代 · 请先选择户主字辈）</div>
+                <div class="ancestor-row">
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">高祖姓名</label>
+                            <input type="text" class="input" id="high-grandfather-name" placeholder="高祖姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">高祖诞辰</label>
+                            <input type="text" class="input" id="high-grandfather-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">高祖忌日</label>
+                            <input type="text" class="input" id="high-grandfather-death" placeholder="待考">
+                        </div>
+                    </div>
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">高祖母姓名</label>
+                            <input type="text" class="input" id="high-grandmother-name" placeholder="高祖母姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">高祖母诞辰</label>
+                            <input type="text" class="input" id="high-grandmother-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">高祖母忌日</label>
+                            <input type="text" class="input" id="high-grandmother-death" placeholder="待考">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="generation-label" id="ancestor-label-5">太祖（第五代 · 请先选择户主字辈）</div>
+                <div class="ancestor-row">
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">太祖姓名</label>
+                            <input type="text" class="input" id="tai-grandfather-name" placeholder="太祖姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">太祖诞辰</label>
+                            <input type="text" class="input" id="tai-grandfather-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">太祖忌日</label>
+                            <input type="text" class="input" id="tai-grandfather-death" placeholder="待考">
+                        </div>
+                    </div>
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">太祖母姓名</label>
+                            <input type="text" class="input" id="tai-grandmother-name" placeholder="太祖母姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">太祖母诞辰</label>
+                            <input type="text" class="input" id="tai-grandmother-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">太祖母忌日</label>
+                            <input type="text" class="input" id="tai-grandmother-death" placeholder="待考">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="generation-label" id="ancestor-label-6">烈祖（第六代 · 请先选择户主字辈）</div>
+                <div class="ancestor-row">
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">烈祖姓名</label>
+                            <input type="text" class="input" id="lie-grandfather-name" placeholder="烈祖姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">烈祖诞辰</label>
+                            <input type="text" class="input" id="lie-grandfather-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">烈祖忌日</label>
+                            <input type="text" class="input" id="lie-grandfather-death" placeholder="待考">
+                        </div>
+                    </div>
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">烈祖母姓名</label>
+                            <input type="text" class="input" id="lie-grandmother-name" placeholder="烈祖母姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">烈祖母诞辰</label>
+                            <input type="text" class="input" id="lie-grandmother-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">烈祖母忌日</label>
+                            <input type="text" class="input" id="lie-grandmother-death" placeholder="待考">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="generation-label" id="ancestor-label-7">天祖（第七代 · 请先选择户主字辈）</div>
+                <div class="ancestor-row">
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">天祖姓名</label>
+                            <input type="text" class="input" id="tian-grandfather-name" placeholder="天祖姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">天祖诞辰</label>
+                            <input type="text" class="input" id="tian-grandfather-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">天祖忌日</label>
+                            <input type="text" class="input" id="tian-grandfather-death" placeholder="待考">
+                        </div>
+                    </div>
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">天祖母姓名</label>
+                            <input type="text" class="input" id="tian-grandmother-name" placeholder="天祖母姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">天祖母诞辰</label>
+                            <input type="text" class="input" id="tian-grandmother-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">天祖母忌日</label>
+                            <input type="text" class="input" id="tian-grandmother-death" placeholder="待考">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="generation-label" id="ancestor-label-8">显祖（第八代 · 请先选择户主字辈）</div>
+                <div class="ancestor-row">
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">显祖姓名</label>
+                            <input type="text" class="input" id="xian-grandfather-name" placeholder="显祖姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">显祖诞辰</label>
+                            <input type="text" class="input" id="xian-grandfather-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">显祖忌日</label>
+                            <input type="text" class="input" id="xian-grandfather-death" placeholder="待考">
+                        </div>
+                    </div>
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">显祖母姓名</label>
+                            <input type="text" class="input" id="xian-grandmother-name" placeholder="显祖母姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">显祖母诞辰</label>
+                            <input type="text" class="input" id="xian-grandmother-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">显祖母忌日</label>
+                            <input type="text" class="input" id="xian-grandmother-death" placeholder="待考">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="generation-label" id="ancestor-label-9">鼻祖（第九代 · 请先选择户主字辈）</div>
+                <div class="ancestor-row">
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">鼻祖姓名</label>
+                            <input type="text" class="input" id="bi-grandfather-name" placeholder="鼻祖姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">鼻祖诞辰</label>
+                            <input type="text" class="input" id="bi-grandfather-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">鼻祖忌日</label>
+                            <input type="text" class="input" id="bi-grandfather-death" placeholder="待考">
+                        </div>
+                    </div>
+                    <div class="ancestor-column">
+                        <div class="form-group">
+                            <label class="label">鼻祖母姓名</label>
+                            <input type="text" class="input" id="bi-grandmother-name" placeholder="鼻祖母姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">鼻祖母诞辰</label>
+                            <input type="text" class="input" id="bi-grandmother-birth" placeholder="待考">
+                        </div>
+                        <div class="form-group">
+                            <label class="label">鼻祖母忌日</label>
+                            <input type="text" class="input" id="bi-grandmother-death" placeholder="待考">
+                        </div>
+                    </div>
+                </div>
+
+                <p style="color: #999; font-size: 12px; text-align: center; margin-top: 10px;">备注：记不清名讳统一填写：失考；生卒日期不详可填：待考</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                三、下延四代子孙
+                <span class="collapse-btn" onclick="toggleSection('descendants')">▼</span>
+            </div>
+            <div class="form-content section-content" id="descendants">
+                <div class="generation-label" id="descendant-label-1">填写人子女（请先选择填写人字辈）</div>
+                <div id="children-list"></div>
+                <button class="add-btn" id="add-child-btn" onclick="addDescendantForName('children-list', 'name')">
+                    <span>+</span> 为填写人添加子女
+                </button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                四、补充备注
+                <span class="collapse-btn" onclick="toggleSection('notes')">▼</span>
+            </div>
+            <div class="form-content section-content" id="notes">
+                <div class="form-group">
+                    <label class="label">家中存有老谱、古碑、祖传旧物</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="heritage" value="有">
+                            <span>有</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="heritage" value="无">
+                            <span>无</span>
+                        </label>
+                    </div>
+                    <input type="text" class="input" id="heritage-desc" placeholder="简单说明" style="margin-top: 10px;">
+                </div>
+
+                <div class="form-group">
+                    <label class="label">家族往事、先祖信息勘误、已故长辈记录</label>
+                    <textarea class="textarea" id="family-history" placeholder="请输入相关内容..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <button class="submit-btn" onclick="submitForm()">
+            <span>提交信息</span>
+        </button>
+
+        <div class="qrcode-section">
+            <div class="qrcode-header">
+                <h3>扫码填写族谱信息</h3>
+                <p>请截图保存二维码，或打印张贴供族人扫码填写</p>
+            </div>
+            <div class="qrcode-container">
+                <div id="qrcode"></div>
+                <p class="qrcode-url" id="current-url">http://localhost:8080/hhh.html</p>
+            </div>
+            <button class="refresh-btn" onclick="generateQRCode()">刷新二维码</button>
+        </div>
+    </div>
+
+    <div class="success-modal" id="success-modal">
+        <div class="success-content">
+            <div class="success-icon">✓</div>
+            <div class="success-title">提交成功</div>
+            <div class="success-desc">感谢您提供的族谱信息！<br>我们会认真核对并录入族谱。</div>
+            <button class="success-btn" onclick="closeModal()">确定</button>
+        </div>
+    </div>
+
+    <script>
+        const generations = ['文', '天', '廷', '仕', '仲', '元', '朝', '应', '荣', '兴', '泮', '宫', '联', '甲', '弟', '云', '路', '佑', '先', '登', '宗', '功', '祖', '德', '远', '诗', '书', '启', '后', '生', '事', '业', '光', '前', '烈', '玉', '叶', '永', '乾', '坤'];
+        
+        let siblingCount = 1;
+        let childCount = 1;
+        let grandchildCount = 1;
+        let greatGrandchildCount = 1;
+        let xuanGrandchildCount = 1;
+
+        function updateGenerations() {
+            const selectedGeneration = document.getElementById('generation-select').value;
+            const selectedIndex = generations.indexOf(selectedGeneration);
+            
+            if (selectedIndex === -1) {
+                document.getElementById('ancestor-label-1').textContent = '父亲（第一代 · 请先选择填写人字辈）';
+                document.getElementById('ancestor-label-2').textContent = '祖父（第二代 · 请先选择填写人字辈）';
+                document.getElementById('ancestor-label-3').textContent = '曾祖（第三代 · 请先选择填写人字辈）';
+                document.getElementById('ancestor-label-4').textContent = '高祖（第四代 · 请先选择填写人字辈）';
+                document.getElementById('ancestor-label-5').textContent = '太祖（第五代 · 请先选择填写人字辈）';
+                document.getElementById('ancestor-label-6').textContent = '烈祖（第六代 · 请先选择填写人字辈）';
+                document.getElementById('ancestor-label-7').textContent = '天祖（第七代 · 请先选择填写人字辈）';
+                document.getElementById('ancestor-label-8').textContent = '显祖（第八代 · 请先选择填写人字辈）';
+                document.getElementById('ancestor-label-9').textContent = '鼻祖（第九代 · 请先选择填写人字辈）';
+                
+                document.getElementById('descendant-label-1').textContent = '填写人子女（请先选择填写人字辈）';
+                return;
+            }
+
+            const ancestorLabels = ['父亲', '祖父', '曾祖', '高祖', '太祖', '烈祖', '天祖', '显祖', '鼻祖'];
+            for (let i = 1; i <= 9; i++) {
+                const ancestorIndex = (selectedIndex - i + generations.length) % generations.length;
+                const ancestorGeneration = generations[ancestorIndex];
+                document.getElementById(`ancestor-label-${i}`).textContent = `${ancestorLabels[i-1]}（第${i}代 · ${ancestorGeneration}字辈）`;
+            }
+
+            const descendantLabels = ['填写人子女', '孙辈', '曾孙辈', '玄孙辈'];
+            const label1 = document.getElementById('descendant-label-1');
+            if (label1) {
+                const descendantIndex1 = (selectedIndex + 1) % generations.length;
+                label1.textContent = `${descendantLabels[0]}（${generations[descendantIndex1]}字辈）`;
+            }
+        }
+
+        function toggleSection(id) {
+            const content = document.getElementById(id);
+            const btn = content.previousElementSibling.querySelector('.collapse-btn');
+            content.classList.toggle('collapsed');
+            btn.classList.toggle('rotated');
+        }
+
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const name = this.name;
+                document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+                    r.parentElement.classList.remove('selected');
+                });
+                this.parentElement.classList.add('selected');
+            });
+        });
+
+        function generateQRCode() {
+            const qrCodeDiv = document.getElementById('qrcode');
+            const urlDisplay = document.getElementById('current-url');
+            const currentUrl = window.location.href;
+            
+            urlDisplay.textContent = currentUrl;
+            
+            qrCodeDiv.innerHTML = '';
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = 160;
+            canvas.height = 160;
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 160, 160);
+            
+            const qrData = generateQRData(currentUrl);
+            drawQRCode(ctx, qrData, 160);
+            
+            const img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            qrCodeDiv.appendChild(img);
+        }
+
+        function generateQRData(text) {
+            const QR8bitByte = 4;
+            const blocks = [];
+            
+            const data = text.split('').map(char => char.charCodeAt(0));
+            const dataLength = data.length;
+            
+            const header = [(dataLength >> 8) & 0xFF, dataLength & 0xFF];
+            const segment = [QR8bitByte, ...header, ...data];
+            
+            blocks.push(segment);
+            
+            const version = getQRVersion(dataLength);
+            const errorLevel = 'L';
+            
+            return { blocks, version, errorLevel };
+        }
+
+        function getQRVersion(length) {
+            if (length <= 17) return 1;
+            if (length <= 32) return 2;
+            if (length <= 53) return 3;
+            if (length <= 78) return 4;
+            return 4;
+        }
+
+        function drawQRCode(ctx, qrData, size) {
+            const version = qrData.version;
+            const moduleCount = version * 4 + 17;
+            const moduleSize = size / moduleCount;
+            
+            const maskPattern = 0;
+            const modules = getQRModules(qrData, maskPattern);
+            
+            for (let row = 0; row < moduleCount; row++) {
+                for (let col = 0; col < moduleCount; col++) {
+                    const isDark = modules[row][col];
+                    if (isDark) {
+                        ctx.fillStyle = '#000000';
+                        ctx.fillRect(col * moduleSize, row * moduleSize, moduleSize, moduleSize);
+                    }
+                }
+            }
+        }
+
+        function getQRModules(qrData, maskPattern) {
+            const version = qrData.version;
+            const moduleCount = version * 4 + 17;
+            const modules = Array(moduleCount).fill(null).map(() => Array(moduleCount).fill(false));
+            
+            drawPositionProbePattern(modules, 0, 0);
+            drawPositionProbePattern(modules, moduleCount - 7, 0);
+            drawPositionProbePattern(modules, 0, moduleCount - 7);
+            
+            for (let i = 0; i < moduleCount; i++) {
+                if (i < 9 || i > moduleCount - 9) continue;
+                modules[6][i] = true;
+                modules[i][6] = true;
+            }
+            
+            const data = encodeQRData(qrData);
+            let bitIndex = 0;
+            
+            for (let row = moduleCount - 1; row >= 0; row -= 2) {
+                for (let col = moduleCount - 1; col >= 0; col--) {
+                    if (modules[row][col] || modules[row - 1][col]) continue;
+                    
+                    const bit = (data[Math.floor(bitIndex / 8)] >> (7 - (bitIndex % 8))) & 1;
+                    modules[row][col] = bit;
+                    bitIndex++;
+                    
+                    if (row - 1 >= 0 && !modules[row - 1][col]) {
+                        const bit2 = (data[Math.floor(bitIndex / 8)] >> (7 - (bitIndex % 8))) & 1;
+                        modules[row - 1][col] = bit2;
+                        bitIndex++;
+                    }
+                }
+            }
+            
+            return modules;
+        }
+
+        function drawPositionProbePattern(modules, row, col) {
+            for (let r = -1; r <= 7; r++) {
+                for (let c = -1; c <= 7; c++) {
+                    const dr = row + r;
+                    const dc = col + c;
+                    if (dr < 0 || dr >= modules.length || dc < 0 || dc >= modules[0].length) continue;
+                    
+                    if ((r >= 0 && r <= 6 && c >= 0 && c <= 6) && !(r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
+                        modules[dr][dc] = true;
+                    } else if (r >= 2 && r <= 4 && c >= 2 && c <= 4) {
+                        modules[dr][dc] = true;
+                    }
+                }
+            }
+            for (let r = 2; r <= 4; r++) {
+                for (let c = 2; c <= 4; c++) {
+                    modules[row + r][col + c] = false;
+                }
+            }
+        }
+
+        function encodeQRData(qrData) {
+            let data = [];
+            
+            qrData.blocks.forEach(block => {
+                data = data.concat(block);
+            });
+            
+            const version = qrData.version;
+            const totalBits = version * version * 4 + version * 44;
+            const totalBytes = Math.ceil(totalBits / 8);
+            
+            while (data.length < totalBytes) {
+                data.push(0xEC);
+            }
+            
+            return data.slice(0, totalBytes);
+        }
+
+        window.addEventListener('load', function() {
+            generateQRCode();
+        });
+
+        document.querySelectorAll('input[name="rank"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const otherInput = document.getElementById('rank-other');
+                if (this.value === '其他') {
+                    otherInput.style.display = 'block';
+                } else {
+                    otherInput.style.display = 'none';
+                }
+            });
+        });
+
+        updateGenerations();
+
+        function addSibling() {
+            siblingCount++;
+            const container = document.getElementById('siblings-list');
+            const item = document.createElement('div');
+            item.className = 'member-item';
+            item.innerHTML = `
+                <div class="member-item-header">
+                    <span class="member-item-title">兄弟姐妹 ${siblingCount}</span>
+                    <span class="member-item-remove" onclick="removeSibling(this)">删除</span>
+                </div>
+                <div class="grid-row-2">
+                    <div class="form-group">
+                        <label class="label">姓名</label>
+                        <input type="text" class="input sibling-name" placeholder="姓名">
+                    </div>
+                    <div class="form-group">
+                        <label class="label">排行</label>
+                        <input type="text" class="input sibling-rank" placeholder="排行">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="label">血缘关系</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="blood-${siblingCount}" value="同父同母">
+                            <span>同父同母</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="blood-${siblingCount}" value="同父异母">
+                            <span>同父异母</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="label">婚姻状况</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="marital-${siblingCount}" value="娶妻">
+                            <span>娶妻</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="marital-${siblingCount}" value="外嫁">
+                            <span>外嫁</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="marital-${siblingCount}" value="入赘">
+                            <span>入赘</span>
+                        </label>
+                    </div>
+                </div>
+            `;
+            container.appendChild(item);
+            bindRadioEvents();
+        }
+
+        function removeSibling(el) {
+            el.closest('.member-item').remove();
+        }
+
+        let descendantIdCounter = 0;
+
+        function updateAddChildBtn() {
+            const name = document.getElementById('name').value.trim();
+            const btn = document.getElementById('add-child-btn');
+            if (btn) {
+                btn.innerHTML = `<span>+</span> 为${name || '填写人'}添加子女`;
+            }
+        }
+
+        function addDescendantForName(containerId, nameSource) {
+            let parentName = '';
+            let depth = 1;
+            let focusElement = null;
+            
+            if (nameSource === 'name') {
+                parentName = document.getElementById('name').value.trim();
+                if (!parentName) {
+                    focusElement = document.getElementById('name');
+                    alert('请先填写填写人姓名');
+                } else {
+                    depth = 1;
+                }
+            } else {
+                const descendantId = nameSource.replace('descendant-', '');
+                const parentItem = document.querySelector(`[data-id="${descendantId}"]`);
+                if (parentItem) {
+                    parentName = parentItem.querySelector('.descendant-name').value.trim();
+                    if (!parentName) {
+                        focusElement = parentItem.querySelector('.descendant-name');
+                        alert('请先填写父辈姓名');
+                    } else {
+                        depth = parseInt(parentItem.dataset.depth) + 1 || 2;
+                    }
+                } else {
+                    alert('未找到父辈信息');
+                    return;
+                }
+            }
+            
+            if (focusElement) {
+                focusElement.focus();
+                focusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            addDescendant(containerId, parentName, depth);
+        }
+
+        function addDescendant(containerId, parentName, depth) {
+            descendantIdCounter++;
+            const container = document.getElementById(containerId);
+            const count = container.querySelectorAll('.member-item').length + 1;
+            const item = document.createElement('div');
+            item.className = 'member-item';
+            item.dataset.id = descendantIdCounter;
+            item.dataset.parentId = containerId.startsWith('children-of-') ? containerId.replace('children-of-', '') : '';
+            item.dataset.depth = depth || 1;
+            
+            const childrenContainerId = `children-of-${descendantIdCounter}`;
+            
+            let autoGeneration = '';
+            const selectedGeneration = document.getElementById('generation-select').value;
+            if (selectedGeneration) {
+                const generations = ['文', '天', '廷', '仕', '仲', '元', '朝', '应', '荣', '兴', '泮', '宫', '联', '甲', '弟', '云', '路', '佑', '先', '登', '宗', '功', '祖', '德', '远', '诗', '书', '启', '后', '生', '事', '业', '光', '前', '烈', '玉', '叶', '永', '乾', '坤'];
+                const currentIndex = generations.indexOf(selectedGeneration);
+                if (currentIndex !== -1) {
+                    autoGeneration = generations[(currentIndex + depth) % generations.length];
+                }
+            }
+            
+            item.innerHTML = `
+                <div class="member-item-header">
+                    <span class="member-item-title">${parentName}之子/女 ${count}</span>
+                    <span class="member-item-remove" onclick="removeDescendant(this)">删除</span>
+                </div>
+                <div class="grid-row-2">
+                    <div class="form-group">
+                        <label class="label">姓名</label>
+                        <input type="text" class="input descendant-name" placeholder="姓名" oninput="updateDescendantTitle(this)">
+                    </div>
+                    <div class="form-group">
+                        <label class="label">字辈</label>
+                        <input type="text" class="input descendant-generation" placeholder="字辈" value="${autoGeneration}" readonly>
+                    </div>
+                </div>
+                <div class="grid-row-2">
+                    <div class="form-group">
+                        <label class="label">性别</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="descendant-gender-${descendantIdCounter}" value="男">
+                                <span>男</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="descendant-gender-${descendantIdCounter}" value="女">
+                                <span>女</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">农历出生年月</label>
+                        <input type="text" class="input descendant-birth" placeholder="____年__月">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="label">婚姻情况</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="descendant-marital-${descendantIdCounter}" value="娶妻">
+                            <span>娶妻</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="descendant-marital-${descendantIdCounter}" value="外嫁">
+                            <span>外嫁</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="descendant-marital-${descendantIdCounter}" value="入赘">
+                            <span>入赘</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="label">配偶（姓名/某氏）</label>
+                    <input type="text" class="input descendant-spouse" placeholder="配偶姓名">
+                </div>
+
+                <div style="border-top: 1px dashed #ddd; padding-top: 12px; margin-top: 12px;">
+                    <div class="generation-label" style="font-size: 11px; padding: 4px 10px;">子女（${autoGeneration ? autoGeneration + '字辈' : '请先选择填写人字辈'}）</div>
+                    <div id="${childrenContainerId}"></div>
+                    <button class="add-btn add-child-btn" onclick="addDescendantForName('${childrenContainerId}', 'descendant-${descendantIdCounter}')" style="margin-top: 8px; padding: 10px; font-size: 13px;">
+                        <span>+</span> 为${parentName || '此成员'}添加子女
+                    </button>
+                </div>
+            `;
+            container.appendChild(item);
+            bindRadioEvents();
+        }
+
+        function updateDescendantTitle(input) {
+            const item = input.closest('.member-item');
+            const title = item.querySelector('.member-item-title');
+            const name = input.value.trim();
+            const itemId = item.dataset.id;
+            
+            const addBtn = item.querySelector('.add-child-btn');
+            if (addBtn) {
+                addBtn.innerHTML = `<span>+</span> 为${name || '此成员'}添加子女`;
+            }
+            
+            if (name && title) {
+                const parentId = item.dataset.parentId;
+                let parentName = '';
+                if (parentId) {
+                    const parentItem = document.querySelector(`[data-id="${parentId}"]`);
+                    if (parentItem) {
+                        parentName = parentItem.querySelector('.descendant-name').value.trim() || '此成员';
+                    }
+                } else {
+                    parentName = document.getElementById('name').value.trim() || '填写人';
+                }
+                const count = item.parentElement.querySelectorAll('.member-item').length;
+                title.textContent = `${parentName}之子/女 ${count}`;
+            }
+        }
+
+        function removeDescendant(el) {
+            el.closest('.member-item').remove();
+        }
+
+        function bindRadioEvents() {
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                if (!radio.dataset.bound) {
+                    radio.addEventListener('change', function() {
+                        const name = this.name;
+                        document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+                            r.parentElement.classList.remove('selected');
+                        });
+                        this.parentElement.classList.add('selected');
+                    });
+                    radio.dataset.bound = 'true';
+                }
+            });
+        }
+
+        function submitForm() {
+            const name = document.getElementById('name').value.trim();
+            
+            if (!name) {
+                document.getElementById('hint-name').classList.add('show');
+                document.getElementById('name').focus();
+                return;
+            }
+
+            const formData = {
+                填写人信息: {
+                    姓名: name,
+                    排行: document.querySelector('input[name="rank"]:checked')?.value || '',
+                    排行其他: document.getElementById('rank-other').value.trim(),
+                    出生年月: {
+                        年: document.getElementById('birth-year').value.trim(),
+                        月: document.getElementById('birth-month').value.trim(),
+                        日: document.getElementById('birth-day').value.trim()
+                    },
+                    联系电话: document.getElementById('phone').value.trim()
+                },
+                兄弟姐妹: [],
+                上溯九代: {
+                    父亲: {
+                        姓名: document.getElementById('father-name').value.trim(),
+                        诞辰: document.getElementById('father-birth').value.trim(),
+                        忌日: document.getElementById('father-death').value.trim()
+                    },
+                    母亲: {
+                        姓名: document.getElementById('mother-name').value.trim(),
+                        诞辰: document.getElementById('mother-birth').value.trim(),
+                        忌日: document.getElementById('mother-death').value.trim()
+                    },
+                    祖父: {
+                        姓名: document.getElementById('grandfather-name').value.trim(),
+                        诞辰: document.getElementById('grandfather-birth').value.trim(),
+                        忌日: document.getElementById('grandfather-death').value.trim()
+                    },
+                    祖母: {
+                        姓名: document.getElementById('grandmother-name').value.trim(),
+                        诞辰: document.getElementById('grandmother-birth').value.trim(),
+                        忌日: document.getElementById('grandmother-death').value.trim()
+                    },
+                    曾祖: {
+                        姓名: document.getElementById('great-grandfather-name').value.trim(),
+                        诞辰: document.getElementById('great-grandfather-birth').value.trim(),
+                        忌日: document.getElementById('great-grandfather-death').value.trim()
+                    },
+                    曾祖母: {
+                        姓名: document.getElementById('great-grandmother-name').value.trim(),
+                        诞辰: document.getElementById('great-grandmother-birth').value.trim(),
+                        忌日: document.getElementById('great-grandmother-death').value.trim()
+                    },
+                    高祖: {
+                        姓名: document.getElementById('high-grandfather-name').value.trim(),
+                        诞辰: document.getElementById('high-grandfather-birth').value.trim(),
+                        忌日: document.getElementById('high-grandfather-death').value.trim()
+                    },
+                    高祖母: {
+                        姓名: document.getElementById('high-grandmother-name').value.trim(),
+                        诞辰: document.getElementById('high-grandmother-birth').value.trim(),
+                        忌日: document.getElementById('high-grandmother-death').value.trim()
+                    },
+                    太祖: {
+                        姓名: document.getElementById('tai-grandfather-name').value.trim(),
+                        诞辰: document.getElementById('tai-grandfather-birth').value.trim(),
+                        忌日: document.getElementById('tai-grandfather-death').value.trim()
+                    },
+                    太祖母: {
+                        姓名: document.getElementById('tai-grandmother-name').value.trim(),
+                        诞辰: document.getElementById('tai-grandmother-birth').value.trim(),
+                        忌日: document.getElementById('tai-grandmother-death').value.trim()
+                    },
+                    烈祖: {
+                        姓名: document.getElementById('lie-grandfather-name').value.trim(),
+                        诞辰: document.getElementById('lie-grandfather-birth').value.trim(),
+                        忌日: document.getElementById('lie-grandfather-death').value.trim()
+                    },
+                    烈祖母: {
+                        姓名: document.getElementById('lie-grandmother-name').value.trim(),
+                        诞辰: document.getElementById('lie-grandmother-birth').value.trim(),
+                        忌日: document.getElementById('lie-grandmother-death').value.trim()
+                    },
+                    天祖: {
+                        姓名: document.getElementById('tian-grandfather-name').value.trim(),
+                        诞辰: document.getElementById('tian-grandfather-birth').value.trim(),
+                        忌日: document.getElementById('tian-grandfather-death').value.trim()
+                    },
+                    天祖母: {
+                        姓名: document.getElementById('tian-grandmother-name').value.trim(),
+                        诞辰: document.getElementById('tian-grandmother-birth').value.trim(),
+                        忌日: document.getElementById('tian-grandmother-death').value.trim()
+                    },
+                    显祖: {
+                        姓名: document.getElementById('xian-grandfather-name').value.trim(),
+                        诞辰: document.getElementById('xian-grandfather-birth').value.trim(),
+                        忌日: document.getElementById('xian-grandfather-death').value.trim()
+                    },
+                    显祖母: {
+                        姓名: document.getElementById('xian-grandmother-name').value.trim(),
+                        诞辰: document.getElementById('xian-grandmother-birth').value.trim(),
+                        忌日: document.getElementById('xian-grandmother-death').value.trim()
+                    },
+                    鼻祖: {
+                        姓名: document.getElementById('bi-grandfather-name').value.trim(),
+                        诞辰: document.getElementById('bi-grandfather-birth').value.trim(),
+                        忌日: document.getElementById('bi-grandfather-death').value.trim()
+                    },
+                    鼻祖母: {
+                        姓名: document.getElementById('bi-grandmother-name').value.trim(),
+                        诞辰: document.getElementById('bi-grandmother-birth').value.trim(),
+                        忌日: document.getElementById('bi-grandmother-death').value.trim()
+                    }
+                },
+                下延子孙: [],
+                补充备注: {
+                    老谱古碑: document.querySelector('input[name="heritage"]:checked')?.value || '',
+                    说明: document.getElementById('heritage-desc').value.trim(),
+                    家族往事: document.getElementById('family-history').value.trim()
+                }
+            };
+
+            document.querySelectorAll('.member-item').forEach((item, index) => {
+                if (item.parentElement.id === 'siblings-list') {
+                    const names = item.querySelector('.sibling-name').value.trim();
+                    if (names) {
+                        formData.兄弟姐妹.push({
+                            姓名: names,
+                            排行: item.querySelector('.sibling-rank').value.trim(),
+                            血缘: item.querySelector('input[type="radio"]:checked')?.value || ''
+                        });
+                    }
+                }
+            });
+
+            function collectDescendants(containerId) {
+                const descendants = [];
+                document.querySelectorAll(`#${containerId} .member-item`).forEach(item => {
+                    const name = item.querySelector('.descendant-name').value.trim();
+                    if (name) {
+                        const dataId = item.dataset.id;
+                        const childItem = {
+                            姓名: name,
+                            字辈: item.querySelector('.descendant-generation').value.trim(),
+                            性别: item.querySelector('input[name^="descendant-gender"]:checked')?.value || '',
+                            出生年月: item.querySelector('.descendant-birth').value.trim(),
+                            婚姻: item.querySelector('input[name^="descendant-marital"]:checked')?.value || '',
+                            配偶: item.querySelector('.descendant-spouse').value.trim(),
+                            子女: []
+                        };
+                        const childrenContainerId = `children-of-${dataId}`;
+                        if (document.getElementById(childrenContainerId)) {
+                            childItem.子女 = collectDescendants(childrenContainerId);
+                        }
+                        descendants.push(childItem);
+                    }
+                });
+                return descendants;
+            }
+
+            formData.下延子孙 = collectDescendants('children-list');
+
+            console.log('提交数据:', JSON.stringify(formData, null, 2));
+
+            const emailBody = formatEmail(formData);
+            const mailtoUrl = `mailto:89658220@qq.com?subject=${encodeURIComponent('刘氏族谱信息收集 - ' + name)}&body=${encodeURIComponent(emailBody)}`;
+            
+            const confirmSend = confirm('信息已收集完成！\n\n是否发送邮件到89658220@qq.com？');
+            if (confirmSend) {
+                window.location.href = mailtoUrl;
+            }
+            
+            document.getElementById('success-modal').classList.add('show');
+        }
+
+        function formatEmail(data) {
+            let email = '【彭城郡俊孝堂刘氏族谱信息收集】\n\n';
+            
+            email += '一、填写人信息\n';
+            email += `姓名：${data.填写人信息.姓名}\n`;
+            email += `排行：${data.填写人信息.排行}${data.填写人信息.排行其他 ? '(' + data.填写人信息.排行其他 + ')' : ''}\n`;
+            email += `出生年月：${data.填写人信息.出生年月.年}年${data.填写人信息.出生年月.月}月${data.填写人信息.出生年月.日}日\n`;
+            email += `联系电话：${data.填写人信息.联系电话}\n\n`;
+            
+            if (data.兄弟姐妹.length > 0) {
+                email += '二、填写人兄弟姐妹\n';
+                data.兄弟姐妹.forEach((s, i) => {
+                    email += `${i + 1}. 姓名：${s.姓名}，排行：${s.排行}，血缘：${s.血缘}\n`;
+                });
+                email += '\n';
+            }
+            
+            email += '三、上溯九代先祖\n';
+            const ancestors = ['父亲', '母亲', '祖父', '祖母', '曾祖', '曾祖母', '高祖', '高祖母', '太祖', '太祖母', '烈祖', '烈祖母', '天祖', '天祖母', '显祖', '显祖母', '鼻祖', '鼻祖母'];
+            ancestors.forEach(a => {
+                if (data.上溯九代[a]) {
+                    const info = data.上溯九代[a];
+                    if (info.姓名) {
+                        email += `${a}：姓名${info.姓名}，诞辰${info.诞辰 || '待考'}，忌日${info.忌日 || '待考'}\n`;
+                    }
+                }
+            });
+            email += '\n';
+            
+            function formatDescendants(descendants, prefix = '') {
+                descendants.forEach((d, i) => {
+                    email += `${prefix}${i + 1}. ${d.姓名}（${d.字辈}字辈），性别：${d.性别}，出生年月：${d.出生年月}，婚姻：${d.婚姻}，配偶：${d.配偶}\n`;
+                    if (d.子女 && d.子女.length > 0) {
+                        formatDescendants(d.子女, prefix + '  ├─');
+                    }
+                });
+            }
+            
+            if (data.下延子孙 && data.下延子孙.length > 0) {
+                email += '四、下延子孙\n';
+                formatDescendants(data.下延子孙);
+                email += '\n';
+            }
+            
+            email += '五、补充备注\n';
+            email += `老谱古碑：${data.补充备注.oldRecords || '无'}\n`;
+            email += `家族往事：${data.补充备注.familyStory || '无'}\n\n`;
+            
+            email += '--- 彭城郡俊孝堂族谱 ---';
+            
+            return email;
+        }
+
+        function closeModal() {
+            document.getElementById('success-modal').classList.remove('show');
+            document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+            document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+            document.querySelectorAll('.radio-label').forEach(el => el.classList.remove('selected'));
+            siblingCount = 1;
+            childCount = 1;
+            grandchildCount = 1;
+            greatGrandchildCount = 1;
+            xuanGrandchildCount = 1;
+        }
+
+        bindRadioEvents();
+    </script>
+</body>
+</html>
