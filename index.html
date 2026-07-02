@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -571,13 +571,13 @@
             </div>
             <div class="form-content">
                 <div class="form-group">
-                    <label class="label">填写人姓名 <span>*</span></label>
-                    <input type="text" class="input" id="name" placeholder="请输入填写人姓名" oninput="updateAddChildBtn()">
+                    <label class="label">填写人姓名（最多3个汉字） <span>*</span></label>
+                    <input type="text" class="input" id="name" placeholder="请输入填写人姓名" oninput="updateAddChildBtn();limitName(this)" maxlength="3">
                     <div class="required-hint" id="hint-name">请填写户主姓名</div>
                 </div>
 
                 <div class="form-group">
-                    <label class="label">排行</label>
+                    <label class="label">排行 <span>*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="rank" value="老大">
@@ -600,17 +600,31 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="label">出生年月（农历）</label>
+                    <label class="label">出生年月（农历） <span>*</span></label>
                     <div class="grid-row">
-                        <input type="text" class="input small-input" id="birth-year" placeholder="年份">
-                        <input type="text" class="input small-input" id="birth-month" placeholder="月份">
-                        <input type="text" class="input small-input" id="birth-day" placeholder="日期">
+                        <input type="text" class="input small-input" id="birth-year" placeholder="年份" oninput="limitNumber(this,4)" maxlength="4">
+                        <input type="text" class="input small-input" id="birth-month" placeholder="月份" oninput="limitNumber(this,2)" maxlength="2">
+                        <input type="text" class="input small-input" id="birth-day" placeholder="日期" oninput="limitNumber(this,2)" maxlength="2">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="label">联系电话</label>
-                    <input type="tel" class="input" id="phone" placeholder="请输入联系电话">
+                    <label class="label">联系电话（最多11个数字） <span>*</span></label>
+                    <input type="tel" class="input" id="phone" placeholder="请输入联系电话" oninput="limitNumber(this,11)" maxlength="11">
+                </div>
+
+                <div class="form-group">
+                    <label class="label">婚姻状况 <span>*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="marital-status" value="娶妻"> 娶妻</label>
+                        <label class="radio-label"><input type="radio" name="marital-status" value="外嫁"> 外嫁</label>
+                        <label class="radio-label"><input type="radio" name="marital-status" value="入赘"> 入赘</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">配偶（姓名/某氏，最多3个汉字） <span>*</span></label>
+                    <input type="text" class="input" id="spouse" placeholder="仅知姓氏可写×氏" oninput="limitName(this)" maxlength="3">
                 </div>
 
                 <div class="form-group">
@@ -683,29 +697,29 @@
                 <div class="ancestor-row">
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">父亲姓名</label>
-                            <input type="text" class="input" id="father-name" placeholder="父亲姓名">
+                            <label class="label">父亲姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="father-name" placeholder="父亲姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">父亲诞辰</label>
+                            <label class="label">父亲诞辰 <span>*</span></label>
                             <input type="text" class="input" id="father-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">父亲忌日</label>
+                            <label class="label">父亲忌日 <span>*</span></label>
                             <input type="text" class="input" id="father-death" placeholder="待考（在世不填）">
                         </div>
                     </div>
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">母亲姓名（仅知姓氏可写×氏）</label>
-                            <input type="text" class="input" id="mother-name" placeholder="母亲姓名">
+                            <label class="label">母亲姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="mother-name" placeholder="母亲姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">母亲诞辰</label>
+                            <label class="label">母亲诞辰 <span>*</span></label>
                             <input type="text" class="input" id="mother-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">母亲忌日</label>
+                            <label class="label">母亲忌日 <span>*</span></label>
                             <input type="text" class="input" id="mother-death" placeholder="待考（在世不填）">
                         </div>
                     </div>
@@ -715,29 +729,29 @@
                 <div class="ancestor-row">
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">祖父姓名</label>
-                            <input type="text" class="input" id="grandfather-name" placeholder="祖父姓名">
+                            <label class="label">祖父姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="grandfather-name" placeholder="祖父姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">祖父诞辰</label>
+                            <label class="label">祖父诞辰 <span>*</span></label>
                             <input type="text" class="input" id="grandfather-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">祖父忌日</label>
+                            <label class="label">祖父忌日 <span>*</span></label>
                             <input type="text" class="input" id="grandfather-death" placeholder="待考">
                         </div>
                     </div>
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">祖母姓名</label>
-                            <input type="text" class="input" id="grandmother-name" placeholder="祖母姓名">
+                            <label class="label">祖母姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="grandmother-name" placeholder="祖母姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">祖母诞辰</label>
+                            <label class="label">祖母诞辰 <span>*</span></label>
                             <input type="text" class="input" id="grandmother-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">祖母忌日</label>
+                            <label class="label">祖母忌日 <span>*</span></label>
                             <input type="text" class="input" id="grandmother-death" placeholder="待考">
                         </div>
                     </div>
@@ -747,29 +761,29 @@
                 <div class="ancestor-row">
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">曾祖姓名</label>
-                            <input type="text" class="input" id="great-grandfather-name" placeholder="曾祖姓名">
+                            <label class="label">曾祖姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="great-grandfather-name" placeholder="曾祖姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">曾祖诞辰</label>
+                            <label class="label">曾祖诞辰 <span>*</span></label>
                             <input type="text" class="input" id="great-grandfather-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">曾祖忌日</label>
+                            <label class="label">曾祖忌日 <span>*</span></label>
                             <input type="text" class="input" id="great-grandfather-death" placeholder="待考">
                         </div>
                     </div>
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">曾祖母姓名</label>
-                            <input type="text" class="input" id="great-grandmother-name" placeholder="曾祖母姓名">
+                            <label class="label">曾祖母姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="great-grandmother-name" placeholder="曾祖母姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">曾祖母诞辰</label>
+                            <label class="label">曾祖母诞辰 <span>*</span></label>
                             <input type="text" class="input" id="great-grandmother-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">曾祖母忌日</label>
+                            <label class="label">曾祖母忌日 <span>*</span></label>
                             <input type="text" class="input" id="great-grandmother-death" placeholder="待考">
                         </div>
                     </div>
@@ -779,29 +793,29 @@
                 <div class="ancestor-row">
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">高祖姓名</label>
-                            <input type="text" class="input" id="high-grandfather-name" placeholder="高祖姓名">
+                            <label class="label">高祖姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="high-grandfather-name" placeholder="高祖姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">高祖诞辰</label>
+                            <label class="label">高祖诞辰 <span>*</span></label>
                             <input type="text" class="input" id="high-grandfather-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">高祖忌日</label>
+                            <label class="label">高祖忌日 <span>*</span></label>
                             <input type="text" class="input" id="high-grandfather-death" placeholder="待考">
                         </div>
                     </div>
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">高祖母姓名</label>
-                            <input type="text" class="input" id="high-grandmother-name" placeholder="高祖母姓名">
+                            <label class="label">高祖母姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="high-grandmother-name" placeholder="高祖母姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">高祖母诞辰</label>
+                            <label class="label">高祖母诞辰 <span>*</span></label>
                             <input type="text" class="input" id="high-grandmother-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">高祖母忌日</label>
+                            <label class="label">高祖母忌日 <span>*</span></label>
                             <input type="text" class="input" id="high-grandmother-death" placeholder="待考">
                         </div>
                     </div>
@@ -811,29 +825,29 @@
                 <div class="ancestor-row">
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">太祖姓名</label>
-                            <input type="text" class="input" id="tai-grandfather-name" placeholder="太祖姓名">
+                            <label class="label">太祖姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="tai-grandfather-name" placeholder="太祖姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">太祖诞辰</label>
+                            <label class="label">太祖诞辰 <span>*</span></label>
                             <input type="text" class="input" id="tai-grandfather-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">太祖忌日</label>
+                            <label class="label">太祖忌日 <span>*</span></label>
                             <input type="text" class="input" id="tai-grandfather-death" placeholder="待考">
                         </div>
                     </div>
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">太祖母姓名</label>
-                            <input type="text" class="input" id="tai-grandmother-name" placeholder="太祖母姓名">
+                            <label class="label">太祖母姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="tai-grandmother-name" placeholder="太祖母姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">太祖母诞辰</label>
+                            <label class="label">太祖母诞辰 <span>*</span></label>
                             <input type="text" class="input" id="tai-grandmother-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">太祖母忌日</label>
+                            <label class="label">太祖母忌日 <span>*</span></label>
                             <input type="text" class="input" id="tai-grandmother-death" placeholder="待考">
                         </div>
                     </div>
@@ -843,29 +857,29 @@
                 <div class="ancestor-row">
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">烈祖姓名</label>
-                            <input type="text" class="input" id="lie-grandfather-name" placeholder="烈祖姓名">
+                            <label class="label">烈祖姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="lie-grandfather-name" placeholder="烈祖姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">烈祖诞辰</label>
+                            <label class="label">烈祖诞辰 <span>*</span></label>
                             <input type="text" class="input" id="lie-grandfather-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">烈祖忌日</label>
+                            <label class="label">烈祖忌日 <span>*</span></label>
                             <input type="text" class="input" id="lie-grandfather-death" placeholder="待考">
                         </div>
                     </div>
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">烈祖母姓名</label>
-                            <input type="text" class="input" id="lie-grandmother-name" placeholder="烈祖母姓名">
+                            <label class="label">烈祖母姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="lie-grandmother-name" placeholder="烈祖母姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">烈祖母诞辰</label>
+                            <label class="label">烈祖母诞辰 <span>*</span></label>
                             <input type="text" class="input" id="lie-grandmother-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">烈祖母忌日</label>
+                            <label class="label">烈祖母忌日 <span>*</span></label>
                             <input type="text" class="input" id="lie-grandmother-death" placeholder="待考">
                         </div>
                     </div>
@@ -875,29 +889,29 @@
                 <div class="ancestor-row">
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">天祖姓名</label>
-                            <input type="text" class="input" id="tian-grandfather-name" placeholder="天祖姓名">
+                            <label class="label">天祖姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="tian-grandfather-name" placeholder="天祖姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">天祖诞辰</label>
+                            <label class="label">天祖诞辰 <span>*</span></label>
                             <input type="text" class="input" id="tian-grandfather-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">天祖忌日</label>
+                            <label class="label">天祖忌日 <span>*</span></label>
                             <input type="text" class="input" id="tian-grandfather-death" placeholder="待考">
                         </div>
                     </div>
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">天祖母姓名</label>
-                            <input type="text" class="input" id="tian-grandmother-name" placeholder="天祖母姓名">
+                            <label class="label">天祖母姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="tian-grandmother-name" placeholder="天祖母姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">天祖母诞辰</label>
+                            <label class="label">天祖母诞辰 <span>*</span></label>
                             <input type="text" class="input" id="tian-grandmother-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">天祖母忌日</label>
+                            <label class="label">天祖母忌日 <span>*</span></label>
                             <input type="text" class="input" id="tian-grandmother-death" placeholder="待考">
                         </div>
                     </div>
@@ -907,29 +921,29 @@
                 <div class="ancestor-row">
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">显祖姓名</label>
-                            <input type="text" class="input" id="xian-grandfather-name" placeholder="显祖姓名">
+                            <label class="label">显祖姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="xian-grandfather-name" placeholder="显祖姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">显祖诞辰</label>
+                            <label class="label">显祖诞辰 <span>*</span></label>
                             <input type="text" class="input" id="xian-grandfather-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">显祖忌日</label>
+                            <label class="label">显祖忌日 <span>*</span></label>
                             <input type="text" class="input" id="xian-grandfather-death" placeholder="待考">
                         </div>
                     </div>
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">显祖母姓名</label>
-                            <input type="text" class="input" id="xian-grandmother-name" placeholder="显祖母姓名">
+                            <label class="label">显祖母姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="xian-grandmother-name" placeholder="显祖母姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">显祖母诞辰</label>
+                            <label class="label">显祖母诞辰 <span>*</span></label>
                             <input type="text" class="input" id="xian-grandmother-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">显祖母忌日</label>
+                            <label class="label">显祖母忌日 <span>*</span></label>
                             <input type="text" class="input" id="xian-grandmother-death" placeholder="待考">
                         </div>
                     </div>
@@ -939,29 +953,29 @@
                 <div class="ancestor-row">
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">鼻祖姓名</label>
-                            <input type="text" class="input" id="bi-grandfather-name" placeholder="鼻祖姓名">
+                            <label class="label">鼻祖姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="bi-grandfather-name" placeholder="鼻祖姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">鼻祖诞辰</label>
+                            <label class="label">鼻祖诞辰 <span>*</span></label>
                             <input type="text" class="input" id="bi-grandfather-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">鼻祖忌日</label>
+                            <label class="label">鼻祖忌日 <span>*</span></label>
                             <input type="text" class="input" id="bi-grandfather-death" placeholder="待考">
                         </div>
                     </div>
                     <div class="ancestor-column">
                         <div class="form-group">
-                            <label class="label">鼻祖母姓名</label>
-                            <input type="text" class="input" id="bi-grandmother-name" placeholder="鼻祖母姓名">
+                            <label class="label">鼻祖母姓名（最多3个汉字） <span>*</span></label>
+                            <input type="text" class="input" id="bi-grandmother-name" placeholder="鼻祖母姓名" oninput="limitName(this)" maxlength="3">
                         </div>
                         <div class="form-group">
-                            <label class="label">鼻祖母诞辰</label>
+                            <label class="label">鼻祖母诞辰 <span>*</span></label>
                             <input type="text" class="input" id="bi-grandmother-birth" placeholder="待考">
                         </div>
                         <div class="form-group">
-                            <label class="label">鼻祖母忌日</label>
+                            <label class="label">鼻祖母忌日 <span>*</span></label>
                             <input type="text" class="input" id="bi-grandmother-death" placeholder="待考">
                         </div>
                     </div>
@@ -992,7 +1006,7 @@
             </div>
             <div class="form-content section-content" id="notes">
                 <div class="form-group">
-                    <label class="label">家中存有老谱、古碑、祖传旧物</label>
+                    <label class="label">家中存有老谱、古碑、祖传旧物 <span>*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="heritage" value="有">
@@ -1003,12 +1017,12 @@
                             <span>无</span>
                         </label>
                     </div>
-                    <input type="text" class="input" id="heritage-desc" placeholder="简单说明" style="margin-top: 10px;">
+                    <input type="text" class="input" id="heritage-desc" placeholder="简单说明（无则填无）" style="margin-top: 10px;">
                 </div>
 
                 <div class="form-group">
-                    <label class="label">家族往事、先祖信息勘误、已故长辈记录</label>
-                    <textarea class="textarea" id="family-history" placeholder="请输入相关内容..."></textarea>
+                    <label class="label">家族往事、先祖信息勘误、已故长辈记录 <span>*</span></label>
+                    <textarea class="textarea" id="family-history" placeholder="请输入相关内容（无则填无）"></textarea>
                 </div>
             </div>
         </div>
@@ -1043,6 +1057,23 @@
         emailjs.init({ publicKey: "uFrXoOqrGzpBlVhph" });
 
         const generations = ['文', '天', '廷', '仕', '仲', '元', '朝', '应', '荣', '兴', '泮', '宫', '联', '甲', '弟', '云', '路', '佑', '先', '登', '宗', '功', '祖', '德', '远', '诗', '书', '启', '后', '生', '事', '业', '光', '前', '烈', '玉', '叶', '永', '乾', '坤'];
+
+        function limitName(input) {
+            input.value = input.value.replace(/[^\u4e00-\u9fa5]/g, '');
+        }
+
+        function limitNumber(input, maxLength) {
+            input.value = input.value.replace(/[^\d]/g, '').slice(0, maxLength);
+        }
+
+        function limitBirth(input) {
+            let value = input.value;
+            value = value.replace(/[^\d年]/g, '');
+            const yearPart = value.split('年')[0] || '';
+            const afterYear = value.split('年')[1] || '';
+            const monthPart = afterYear.replace(/[^\d]/g, '').slice(0, 2);
+            input.value = yearPart.slice(0, 4) + (yearPart.length >= 4 ? '年' : '') + monthPart;
+        }
         
         let siblingCount = 1;
         let childCount = 1;
@@ -1148,16 +1179,16 @@
                 </div>
                 <div class="grid-row-2">
                     <div class="form-group">
-                        <label class="label">姓名</label>
-                        <input type="text" class="input sibling-name" placeholder="姓名">
+                        <label class="label">姓名（最多3个汉字） <span>*</span></label>
+                        <input type="text" class="input sibling-name" placeholder="姓名" oninput="limitName(this)" maxlength="3">
                     </div>
                     <div class="form-group">
-                        <label class="label">排行</label>
+                        <label class="label">排行 <span>*</span></label>
                         <input type="text" class="input sibling-rank" placeholder="排行">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="label">血缘关系</label>
+                    <label class="label">血缘关系 <span>*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="blood-${siblingCount}" value="同父同母">
@@ -1170,7 +1201,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="label">婚姻状况</label>
+                    <label class="label">婚姻状况 <span>*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="marital-${siblingCount}" value="娶妻">
@@ -1273,8 +1304,8 @@
                 </div>
                 <div class="grid-row-2">
                     <div class="form-group">
-                        <label class="label">姓名</label>
-                        <input type="text" class="input descendant-name" placeholder="姓名" oninput="updateDescendantTitle(this)">
+                        <label class="label">姓名（最多3个汉字） <span>*</span></label>
+                        <input type="text" class="input descendant-name" placeholder="姓名" oninput="updateDescendantTitle(this);limitName(this)" maxlength="3">
                     </div>
                     <div class="form-group">
                         <label class="label">字辈</label>
@@ -1283,7 +1314,7 @@
                 </div>
                 <div class="grid-row-2">
                     <div class="form-group">
-                        <label class="label">性别</label>
+                        <label class="label">性别 <span>*</span></label>
                         <div class="radio-group">
                             <label class="radio-label">
                                 <input type="radio" name="descendant-gender-${descendantIdCounter}" value="男">
@@ -1296,12 +1327,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="label">农历出生年月</label>
-                        <input type="text" class="input descendant-birth" placeholder="____年__月">
+                        <label class="label">农历出生年月（年4位月2位） <span>*</span></label>
+                        <input type="text" class="input descendant-birth" placeholder="____年__月" oninput="limitBirth(this)">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="label">婚姻情况</label>
+                    <label class="label">婚姻情况 <span>*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="descendant-marital-${descendantIdCounter}" value="娶妻">
@@ -1318,8 +1349,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="label">配偶（姓名/某氏）</label>
-                    <input type="text" class="input descendant-spouse" placeholder="配偶姓名">
+                    <label class="label">配偶（姓名/某氏，最多3个汉字） <span>*</span></label>
+                    <input type="text" class="input descendant-spouse" placeholder="配偶姓名（未婚填无）" oninput="limitName(this)" maxlength="3">
                 </div>
 
                 <div style="border-top: 1px dashed #ddd; padding-top: 12px; margin-top: 12px;">
@@ -1382,10 +1413,214 @@
 
         function submitForm() {
             const name = document.getElementById('name').value.trim();
-            
+            const rank = document.querySelector('input[name="rank"]:checked')?.value;
+            const birthYear = document.getElementById('birth-year').value.trim();
+            const birthMonth = document.getElementById('birth-month').value.trim();
+            const birthDay = document.getElementById('birth-day').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const maritalStatus = document.querySelector('input[name="marital-status"]:checked')?.value;
+            const spouse = document.getElementById('spouse').value.trim();
+            const generation = document.getElementById('generation-select').value;
+
             if (!name) {
-                document.getElementById('hint-name').classList.add('show');
+                alert('请填写填写人姓名');
                 document.getElementById('name').focus();
+                return;
+            }
+            if (!rank) {
+                alert('请选择排行');
+                return;
+            }
+            if (!birthYear) {
+                alert('请填写出生年份');
+                document.getElementById('birth-year').focus();
+                return;
+            }
+            if (!birthMonth) {
+                alert('请填写出生月份');
+                document.getElementById('birth-month').focus();
+                return;
+            }
+            if (!birthDay) {
+                alert('请填写出生日期');
+                document.getElementById('birth-day').focus();
+                return;
+            }
+            if (!phone) {
+                alert('请填写联系电话');
+                document.getElementById('phone').focus();
+                return;
+            }
+            if (!maritalStatus) {
+                alert('请选择婚姻状况');
+                return;
+            }
+            if (!spouse) {
+                alert('请填写配偶信息（未知可填"失考"）');
+                document.getElementById('spouse').focus();
+                return;
+            }
+            if (!generation) {
+                alert('请选择填写人字辈');
+                document.getElementById('generation-select').focus();
+                return;
+            }
+
+            const ancestorFields = [
+                { name: '父亲姓名', id: 'father-name' },
+                { name: '父亲诞辰', id: 'father-birth' },
+                { name: '父亲忌日', id: 'father-death' },
+                { name: '母亲姓名', id: 'mother-name' },
+                { name: '母亲诞辰', id: 'mother-birth' },
+                { name: '母亲忌日', id: 'mother-death' },
+                { name: '祖父姓名', id: 'grandfather-name' },
+                { name: '祖父诞辰', id: 'grandfather-birth' },
+                { name: '祖父忌日', id: 'grandfather-death' },
+                { name: '祖母姓名', id: 'grandmother-name' },
+                { name: '祖母诞辰', id: 'grandmother-birth' },
+                { name: '祖母忌日', id: 'grandmother-death' },
+                { name: '曾祖姓名', id: 'great-grandfather-name' },
+                { name: '曾祖诞辰', id: 'great-grandfather-birth' },
+                { name: '曾祖忌日', id: 'great-grandfather-death' },
+                { name: '曾祖母姓名', id: 'great-grandmother-name' },
+                { name: '曾祖母诞辰', id: 'great-grandmother-birth' },
+                { name: '曾祖母忌日', id: 'great-grandmother-death' },
+                { name: '高祖姓名', id: 'high-grandfather-name' },
+                { name: '高祖诞辰', id: 'high-grandfather-birth' },
+                { name: '高祖忌日', id: 'high-grandfather-death' },
+                { name: '高祖母姓名', id: 'high-grandmother-name' },
+                { name: '高祖母诞辰', id: 'high-grandmother-birth' },
+                { name: '高祖母忌日', id: 'high-grandmother-death' },
+                { name: '太祖姓名', id: 'tai-grandfather-name' },
+                { name: '太祖诞辰', id: 'tai-grandfather-birth' },
+                { name: '太祖忌日', id: 'tai-grandfather-death' },
+                { name: '太祖母姓名', id: 'tai-grandmother-name' },
+                { name: '太祖母诞辰', id: 'tai-grandmother-birth' },
+                { name: '太祖母忌日', id: 'tai-grandmother-death' },
+                { name: '烈祖姓名', id: 'lie-grandfather-name' },
+                { name: '烈祖诞辰', id: 'lie-grandfather-birth' },
+                { name: '烈祖忌日', id: 'lie-grandfather-death' },
+                { name: '烈祖母姓名', id: 'lie-grandmother-name' },
+                { name: '烈祖母诞辰', id: 'lie-grandmother-birth' },
+                { name: '烈祖母忌日', id: 'lie-grandmother-death' },
+                { name: '天祖姓名', id: 'tian-grandfather-name' },
+                { name: '天祖诞辰', id: 'tian-grandfather-birth' },
+                { name: '天祖忌日', id: 'tian-grandfather-death' },
+                { name: '天祖母姓名', id: 'tian-grandmother-name' },
+                { name: '天祖母诞辰', id: 'tian-grandmother-birth' },
+                { name: '天祖母忌日', id: 'tian-grandmother-death' },
+                { name: '显祖姓名', id: 'xian-grandfather-name' },
+                { name: '显祖诞辰', id: 'xian-grandfather-birth' },
+                { name: '显祖忌日', id: 'xian-grandfather-death' },
+                { name: '显祖母姓名', id: 'xian-grandmother-name' },
+                { name: '显祖母诞辰', id: 'xian-grandmother-birth' },
+                { name: '显祖母忌日', id: 'xian-grandmother-death' },
+                { name: '鼻祖姓名', id: 'bi-grandfather-name' },
+                { name: '鼻祖诞辰', id: 'bi-grandfather-birth' },
+                { name: '鼻祖忌日', id: 'bi-grandfather-death' },
+                { name: '鼻祖母姓名', id: 'bi-grandmother-name' },
+                { name: '鼻祖母诞辰', id: 'bi-grandmother-birth' },
+                { name: '鼻祖母忌日', id: 'bi-grandmother-death' }
+            ];
+
+            for (const field of ancestorFields) {
+                const value = document.getElementById(field.id)?.value.trim();
+                if (!value) {
+                    alert('请填写' + field.name + '（未知可填"失考"）');
+                    document.getElementById(field.id)?.focus();
+                    return;
+                }
+            }
+
+            const heritage = document.querySelector('input[name="heritage"]:checked')?.value;
+            const heritageDesc = document.getElementById('heritage-desc').value.trim();
+            const familyHistory = document.getElementById('family-history').value.trim();
+
+            if (!heritage) {
+                alert('请选择是否有老谱古碑');
+                return;
+            }
+            if (!familyHistory) {
+                alert('请填写家族往事（无则填"无"）');
+                document.getElementById('family-history').focus();
+                return;
+            }
+
+            const siblings = document.querySelectorAll('#siblings-list .member-item');
+            for (let i = 0; i < siblings.length; i++) {
+                const sibling = siblings[i];
+                const name = sibling.querySelector('.sibling-name').value.trim();
+                const rank = sibling.querySelector('.sibling-rank').value.trim();
+                const blood = sibling.querySelector('input[name^="blood"]:checked')?.value;
+                const marital = sibling.querySelector('input[name^="marital"]:checked')?.value;
+                
+                if (!name) {
+                    alert('请填写第' + (i + 1) + '位兄弟姐妹的姓名');
+                    sibling.querySelector('.sibling-name').focus();
+                    return;
+                }
+                if (!rank) {
+                    alert('请填写第' + (i + 1) + '位兄弟姐妹的排行');
+                    sibling.querySelector('.sibling-rank').focus();
+                    return;
+                }
+                if (!blood) {
+                    alert('请选择第' + (i + 1) + '位兄弟姐妹的血缘关系');
+                    return;
+                }
+                if (!marital) {
+                    alert('请选择第' + (i + 1) + '位兄弟姐妹的婚姻状况');
+                    return;
+                }
+            }
+
+            function validateDescendants(containerId, parentLabel) {
+                const descendants = document.querySelectorAll(`#${containerId} .member-item`);
+                for (let i = 0; i < descendants.length; i++) {
+                    const item = descendants[i];
+                    const name = item.querySelector('.descendant-name').value.trim();
+                    const gender = item.querySelector('input[name^="descendant-gender"]:checked')?.value;
+                    const birth = item.querySelector('.descendant-birth').value.trim();
+                    const marital = item.querySelector('input[name^="descendant-marital"]:checked')?.value;
+                    const spouse = item.querySelector('.descendant-spouse').value.trim();
+                    
+                    if (!name) {
+                        alert(`请填写${parentLabel}第${i + 1}个子女的姓名`);
+                        item.querySelector('.descendant-name').focus();
+                        return false;
+                    }
+                    if (!gender) {
+                        alert(`请选择${parentLabel}第${i + 1}个子女的性别`);
+                        return false;
+                    }
+                    if (!birth) {
+                        alert(`请填写${parentLabel}第${i + 1}个子女的出生年月`);
+                        item.querySelector('.descendant-birth').focus();
+                        return false;
+                    }
+                    if (!marital) {
+                        alert(`请选择${parentLabel}第${i + 1}个子女的婚姻状况`);
+                        return false;
+                    }
+                    if (!spouse) {
+                        alert(`请填写${parentLabel}第${i + 1}个子女的配偶信息（未婚填"无"）`);
+                        item.querySelector('.descendant-spouse').focus();
+                        return false;
+                    }
+                    
+                    const dataId = item.dataset.id;
+                    const childrenContainerId = `children-of-${dataId}`;
+                    if (document.getElementById(childrenContainerId)) {
+                        const childLabel = name ? `${name}的` : '此成员的';
+                        if (!validateDescendants(childrenContainerId, childLabel)) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
+            if (!validateDescendants('children-list', '填写人')) {
                 return;
             }
 
@@ -1399,7 +1634,9 @@
                         月: document.getElementById('birth-month').value.trim(),
                         日: document.getElementById('birth-day').value.trim()
                     },
-                    联系电话: document.getElementById('phone').value.trim()
+                    联系电话: document.getElementById('phone').value.trim(),
+                    婚姻状况: document.querySelector('input[name="marital-status"]:checked')?.value || '',
+                    配偶: document.getElementById('spouse').value.trim()
                 },
                 兄弟姐妹: [],
                 上溯九代: {
@@ -1588,7 +1825,9 @@
             email += `姓名：${data.填写人信息.姓名}\n`;
             email += `排行：${data.填写人信息.排行}${data.填写人信息.排行其他 ? '(' + data.填写人信息.排行其他 + ')' : ''}\n`;
             email += `出生年月：${data.填写人信息.出生年月.年}年${data.填写人信息.出生年月.月}月${data.填写人信息.出生年月.日}日\n`;
-            email += `联系电话：${data.填写人信息.联系电话}\n\n`;
+            email += `联系电话：${data.填写人信息.联系电话}\n`;
+            email += `婚姻状况：${data.填写人信息.婚姻状况 || '未填'}\n`;
+            email += `配偶：${data.填写人信息.配偶 || '未填'}\n\n`;
             
             if (data.兄弟姐妹.length > 0) {
                 email += '二、填写人兄弟姐妹\n';
